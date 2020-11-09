@@ -18,9 +18,6 @@ use FileSync\Server;
 
 define('ROOT', dirname(__DIR__, 1));
 
-$keyPath = __DIR__ . '/tests/fixture/keys';
-$srcPath = __DIR__ . '/src';
-
 require ROOT . '/vendor/autoload.php';
-$server = new Server(ROOT . '/tests/fixture/keys');
-$server->dispatch(ROOT . '/tests/fixture/data');
+$server = new Server(ROOT . '/tests/Fixture/keys');
+$server->dispatch(ROOT . '/tests/Fixture/data');
