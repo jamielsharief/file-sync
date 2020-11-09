@@ -1,6 +1,6 @@
 # File Sync (alpha)
 
-A secure HTTP file syncing library that uses public/private keys for authorization.
+A HTTP file syncing library that uses public/private keys for authorization.
 
 This library can be used to install or update applications from private sources, sync data files or for any other reason that you can think off where you want `rsync` functionality but to be able to control it from PHP easily.
 
@@ -76,10 +76,16 @@ tmp/
 vendor/
 ```
 
-## Development
+## Demo
 
-As the client needs to communicate the server, you can use the built in web server to start it up locally.
+To load the demo, first start the built in PHP web server
 
-```php
+```bash
 $ php -S localhost:8000
+```
+
+Then run the following command, this will create a folder called `dest` and sync the files from `src`.
+
+```bash
+$ php demo.php
 ```
