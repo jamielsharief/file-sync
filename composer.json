@@ -1,0 +1,33 @@
+{
+    "name": "jamielsharief/file-sync",
+    "description": "File sync utils",
+    "type": "library",
+    "keywords": ["sync","filesystem"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jamiel Sharief",
+            "email": "js@originphp.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "FileSync\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FileSync\\Test\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=7.3.0",
+        "originphp/http-client": "^2.0",
+        "jamielsharief/encryption": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.2",
+        "phpstan/phpstan": "^0.12.52",
+        "symfony/process": "^5.1"
+    }
+}
