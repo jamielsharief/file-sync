@@ -145,8 +145,22 @@ class ServerTest extends TestCase
             ],
             'checksum' => false
         ]);
-     
-        $this->assertEquals('{"data":{"update":[{"path":"folder\/.gitignore","size":13,"modified":1604938541,"permissions":"0644","checksum":"fc786ea8"},{"path":"README.md","size":20,"modified":1604938543,"permissions":"0644","checksum":"357e0cdc"}],"delete":["foo.md"]}}', $response->body());
+        // travis CI testing issues, modified & file order
+        $json = preg_replace('/"modified":([\d]+),/', '"modified":123456789,', $response->body());
+   
+        $this->assertStringContainsString(
+          '{"path":"README.md","size":20,"modified":123456789,"permissions":"0644","checksum":"357e0cdc"}',
+          $json
+      );
+        $this->assertStringContainsString(
+          '{"path":"folder\/.gitignore","size":13,"modified":123456789,"permissions":"0644","checksum":"fc786ea8"}',
+          $json
+      );
+
+        $this->assertStringContainsString(
+        '"delete":["foo.md"]',
+        $json
+    );
     }
 
     public function testDifferenceChecksum()
@@ -174,7 +188,13 @@ class ServerTest extends TestCase
             'checksum' => true
         ]);
      
-        $this->assertEquals('{"data":{"update":[{"path":"README.md","size":20,"modified":1604938543,"permissions":"0644","checksum":"357e0cdc"}],"delete":[]}}', $response->body());
+        // travis CI testing issues, modified & file order
+        $json = preg_replace('/"modified":([\d]+),/', '"modified":123456789,', $response->body());
+        
+        $this->assertStringContainsString(
+            '{"path":"README.md","size":20,"modified":123456789,"permissions":"0644","checksum":"357e0cdc"}',
+            $json
+        );
     }
 
     public function testDownload()

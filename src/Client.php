@@ -99,7 +99,6 @@ class Client extends BaseFileSync
             $body = $response->json();
 
             if (! isset($body['data']['challenge'])) {
-                print_r($response->body());
                 throw new FileSyncException('Invalid server response'); // are you sure its the API?
             }
       
