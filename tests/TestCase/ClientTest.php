@@ -26,7 +26,7 @@ class ClientTest extends TestCase
     {
         $tests = dirname(__DIR__);
       
-        self::$process = new Process(['php','-S','localhost:8000','-t', $tests]);
+        self::$process = new Process(['php','-S','localhost:3000','-t', $tests]);
         self::$process->start();
         sleep(10); // not working on travis, will increase delay
     }
@@ -57,13 +57,13 @@ class ClientTest extends TestCase
     {
         $client = new Client($this->keychainPath);
         $this->expectException(FileSyncException::class);
-        $client->dispatch('http://localhost:8000/test-server.php', 'tony@stark.io', $this->destPath);
+        $client->dispatch('http://localhost:3000/test-server.php', 'tony@stark.io', $this->destPath);
     }
 
     public function testDispatch()
     {
         $client = new Client($this->keychainPath);
-        $client->dispatch('http://localhost:8000/test-server.php', 'demo@example.com', $this->destPath);
+        $client->dispatch('http://localhost:3000/test-server.php', 'demo@example.com', $this->destPath);
         $this->assertFileIsReadable($this->destPath . '/README.md');
         $this->assertFileIsReadable($this->destPath . '/folder/.gitignore');
     }
@@ -79,7 +79,7 @@ class ClientTest extends TestCase
         $this->assertFileIsReadable($pathToDelete);
 
         $client = new Client($this->keychainPath);
-        $client->dispatch('http://localhost:8000/test-server.php', 'demo@example.com', $this->destPath, [
+        $client->dispatch('http://localhost:3000/test-server.php', 'demo@example.com', $this->destPath, [
             'delete' => true
         ]);
       
