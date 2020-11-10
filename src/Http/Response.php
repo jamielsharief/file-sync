@@ -62,7 +62,7 @@ class Response
             $statusCode = $this->statusCode;
         }
 
-        return $this->statusCode = $statusCode ;
+        return $this->statusCode = $statusCode;
     }
 
     /**
