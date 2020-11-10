@@ -144,7 +144,8 @@ class ServerTest extends TestCase
                     'path' => 'foo.md',
                     'size' => 25,
                     'modified' => 1604925505,
-                    'permissions' => '0644'
+                    'permissions' => '0644',
+                    'checksum' => 'abcdefg'
                 ]
             ],
             'checksum' => false
@@ -164,6 +165,32 @@ class ServerTest extends TestCase
         $this->assertStringContainsString(
         '"delete":["foo.md"]', $json
          );
+    }
+
+    /**
+     * Reach the compare method using size+time comparison
+     */
+    public function testDifferenceCompare()
+    {
+        $response = $this->sendPostRequest([
+            'action' => 'difference',
+            'token' => $this->authorize(),
+            'files' => [
+                [
+                    'path' => 'README.md',
+                    'size' => 20,
+                    'modified' => 123456789,
+                    'permissions' => '0644',
+                    'checksum' => 'fc786ea8'
+                ]
+            ],
+            'checksum' => false
+        ]);
+
+        $this->assertStringContainsString(
+            '{"path":"README.md"',
+            $response->body()
+        );
     }
 
     public function testDifferenceChecksum()
