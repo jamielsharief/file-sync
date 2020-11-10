@@ -4,9 +4,9 @@
 [![Build Status](https://travis-ci.com/jamielsharief/file-sync.svg?branch=main)](https://travis-ci.com/jamielsharief/file-sync)
 [![Coverage Status](https://coveralls.io/repos/github/jamielsharief/file-sync/badge.svg?branch=main)](https://coveralls.io/github/jamielsharief/file-sync?branch=main)
 
-A HTTP file syncing library that uses public/private keys for authorization.
+A HTTP based file synchronization library that uses public key authentication.
 
-This library can be used to install or update applications from private sources, sync data files or for any other reason that you can think off where you want `rsync` functionality but to be able to control it from PHP easily.
+This library can be used to install or update applications from private sources, sync data files or for any other reason that you can think of where you might want `rsync` functionality but to be able to control it using PHP easily.
 
 ## Setup
 
