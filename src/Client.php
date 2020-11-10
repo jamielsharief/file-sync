@@ -104,16 +104,14 @@ class Client extends BaseFileSync
         if ($response->ok()) {
             $body = $response->json();
 
-            if (! isset($body['data']['challenge'])) {
-                throw new FileSyncException('Invalid server response'); // are you sure its the API?
+            if (isset($body['data']['challenge'])) {
+                return $this->encryption->decrypt(
+                    $body['data']['challenge'], $this->loadPrivateKey($username)
+                );
             }
-      
-            return $this->encryption->decrypt(
-                $body['data']['challenge'], $this->loadPrivateKey($username)
-            );
         }
 
-        return null;
+        throw new FileSyncException('Authentication process failure');
     }
 
     /**

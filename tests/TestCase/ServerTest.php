@@ -39,6 +39,12 @@ class MockServer extends Server
     {
         $this->$key = $value;
     }
+
+    public function get(string $key)
+    {
+        return $this->$key;
+    }
+    
     public function request(): Request
     {
         return $this->request;
@@ -71,6 +77,13 @@ class ServerTest extends TestCase
         $server->set('request', $request);
 
         return $server;
+    }
+
+    public function testDurationString()
+    {
+        $server = new MockServer($this->keychainPath, ['duration' => '+2 hour']);
+
+        $this->assertEquals(7200, $server->get('duration'));
     }
 
     public function testInvalidKeychainPath()
@@ -292,6 +305,28 @@ class ServerTest extends TestCase
         ]);
       
         $this->assertEquals('{"error":{"message":"Not Found","code":404}}', $response->body());
+    }
+
+    public function testDownloadBadRequest()
+    {
+        $response = $this->sendPostRequest([
+            'action' => 'download',
+            'token' => $this->authorize(),
+            // DONT ADD FILE KEY
+        ]);
+        $this->assertEquals('{"error":{"message":"Bad Request","code":400}}', $response->body());
+    }
+
+    public function testDifferenceBadRequest()
+    {
+        $response = $this->sendPostRequest([
+            'action' => 'difference',
+            'token' => $this->authorize(),
+            // NO FILES 'files' => [],
+            'checksum' => false
+        ]);
+
+        $this->assertStringContainsString('{"error":{"message":"Bad Request","code":400}}', $response->body());
     }
 
     /**
