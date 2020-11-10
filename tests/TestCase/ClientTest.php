@@ -28,7 +28,7 @@ class ClientTest extends TestCase
       
         self::$process = new Process(['php','-S','localhost:3000','-t', $tests]);
         self::$process->start();
-        sleep(10); // not working on travis, will increase delay
+        sleep(3); // not working on travis, will increase delay
     }
  
     public static function tearDownAfterClass(): void
