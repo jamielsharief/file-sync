@@ -264,6 +264,48 @@ class ServerTest extends TestCase
         $this->assertEquals($expected, $response->body());
     }
 
+    /**
+     * Test that files in syncignore can't be manually called
+     *
+     * @xxdepends testDownload
+     *
+     * @return void
+     */
+    public function testDownloadSyncignore()
+    {
+        $syncignorePath = $this->sourcePath . '/.syncignore';
+        file_put_contents($syncignorePath, 'foo');
+      
+        $response = $this->sendPostRequest([
+            'action' => 'download',
+            'token' => $this->authorize(),
+            'file' => '.syncignore'
+        ]);
+        unlink($syncignorePath);
+        $this->assertEquals('{"error":{"message":"Not Found","code":404}}', $response->body());
+    }
+
+    /**
+     * Test that files in syncignore can't be manually called
+     *
+     * @xxdepends testDownload
+     *
+     * @return void
+     */
+    public function testDownloadSyncignoredFile()
+    {
+        $syncignorePath = $this->sourcePath . '/.syncignore';
+        file_put_contents($syncignorePath, 'README.md');
+      
+        $response = $this->sendPostRequest([
+            'action' => 'download',
+            'token' => $this->authorize(),
+            'file' => 'README.md'
+        ]);
+        unlink($syncignorePath);
+        $this->assertEquals('{"error":{"message":"Not Found","code":404}}', $response->body());
+    }
+
     public function testDownloadNotFound()
     {
         $response = $this->sendPostRequest([

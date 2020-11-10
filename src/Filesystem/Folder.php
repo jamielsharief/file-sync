@@ -38,9 +38,7 @@ class Folder
             throw new InvalidArgumentException('The path does not exist');
         }
 
-        if (file_exists($directory . '/.syncignore')) {
-            $this->loadSyncIgnore($directory);
-        }
+        $this->loadSyncignore($directory);
 
         $iterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS),
@@ -59,7 +57,7 @@ class Folder
             $relativePath = substr($path, $startFrom);
 
             // I am thinking .syncignore should not never be synced?
-            if ($this->ignorePath($relativePath) || $relativePath === '.syncignore') {
+            if ($this->ignorePath($relativePath)) {
                 continue;
             }
          
@@ -76,24 +74,25 @@ class Folder
     }
 
     /**
-     * Checks a path against .syncignore
+     * Checks a path against patterns loaded from syncignore
      *
      * @param string $path
      * @return boolean
      */
-    private function ignorePath(string $path): bool
+    public function ignorePath(string $path): bool
     {
         foreach ($this->ignorePatterns as $pattern) {
             if (preg_match($pattern, $path)) {
                 return true;
             }
         }
-
-        return false;
+        
+        // should equal false
+        return $path === '.syncignore';
     }
 
     /**
-     * Processes the .syncignore file
+     * Loads the .syncignore file from a directory if it exists
      *
      * e.g.
      *
@@ -101,18 +100,24 @@ class Folder
      *      tests/
      *
      * @param string $directory
-     * @return void
+     * @return array
      */
-    private function loadSyncIgnore(string $directory): void
+    public function loadSyncignore(string $directory): array
     {
-        $contents = file($directory . '/.syncignore');
+        $patterns = [];
 
-        foreach ($contents as $line) {
-            $line = trim($line);
-            if ($line) {
-                $line = str_replace('*', '.*', $line);
-                $this->ignorePatterns[] = '/' . str_replace('/', '\/', $line) .'/';
+        $path = $directory . '/.syncignore';
+
+        if (file_exists($path)) {
+            foreach (file($path) as $line) {
+                $line = trim($line);
+                if ($line) {
+                    $line = str_replace('*', '.*', $line);
+                    $patterns[] = '/' . str_replace('/', '\/', $line) .'/';
+                }
             }
         }
+       
+        return $this->ignorePatterns = $patterns;
     }
 }
