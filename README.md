@@ -1,5 +1,9 @@
 # File Sync (alpha)
 
+![license](https://img.shields.io/badge/license-MIT-brightGreen.svg)
+[![Build Status](https://travis-ci.com/jamielsharief/file-sync.svg?branch=main)](https://travis-ci.com/jamielsharief/file-sync)
+[![Coverage Status](https://coveralls.io/repos/github/jamielsharief/file-sync/badge.svg?branch=main)](https://coveralls.io/github/jamielsharief/file-sync?branch=main)
+
 A HTTP file syncing library that uses public/private keys for authorization.
 
 This library can be used to install or update applications from private sources, sync data files or for any other reason that you can think off where you want `rsync` functionality but to be able to control it from PHP easily.
