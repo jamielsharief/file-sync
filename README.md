@@ -1,4 +1,4 @@
-# File Sync (alpha)
+# File Sync (beta)
 
 ![license](https://img.shields.io/badge/license-MIT-brightGreen.svg)
 [![Build Status](https://travis-ci.com/jamielsharief/file-sync.svg?branch=main)](https://travis-ci.com/jamielsharief/file-sync)

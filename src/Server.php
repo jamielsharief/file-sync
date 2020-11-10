@@ -246,7 +246,6 @@ class Server extends BaseFileSync
       
         $realPath = realpath($path);
 
-        // Check against the IGNORE path for tampering I guess
         $folder = new Folder();
         $folder->loadSyncignore($this->path);
 
@@ -257,7 +256,7 @@ class Server extends BaseFileSync
          * - Real path will return false if the file does not exist or does not have readable
          *   permissions.
          * - Also make sure attempts to get data outside of directory are blocked e.g. using docs/../../password.dat
-         * - Check the file against the .syncignore if somebody really wants to get dirty
+         * - Check for malicious requests trying to access .syncignore or files/folders blocked by sync ignore.
          */
 
         if (
