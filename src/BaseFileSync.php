@@ -28,6 +28,19 @@ class BaseFileSync
     protected $keychainPath;
 
     /**
+
+     * @param string $path
+     * @return void
+     */
+    protected function setKeychainPath(string $path): void
+    {
+        if (! is_dir($path)) {
+            throw new FileSyncException('Keychain path does not exist');
+        }
+        $this->keychainPath = rtrim($path, '/');
+    }
+
+    /**
      * Loads a public key from the key file
      *
      * @param string $userId

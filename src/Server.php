@@ -18,7 +18,6 @@ use FileSync\Http\Response;
 use FileSync\Filesystem\Diff;
 use FileSync\Filesystem\Folder;
 use Encryption\AsymmetricEncryption;
-use FileSync\Exception\FileSyncException;
 
 class Server extends BaseFileSync
 {
@@ -72,10 +71,8 @@ class Server extends BaseFileSync
 
         $this->duration = $options['duration'];
 
-        if (! is_dir($keychainPath)) {
-            throw new FileSyncException('Keychain path does not exist');
-        }
-        $this->keychainPath = rtrim($keychainPath, '/');
+        $this->setKeychainPath($keychainPath);
+        
         $this->encryption = new AsymmetricEncryption();
 
         $this->request = new Request();

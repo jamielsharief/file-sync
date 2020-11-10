@@ -44,6 +44,12 @@ class ClientTest extends TestCase
         mkdir($this->destPath, 0775);
     }
 
+    public function testInvalidKeychainPath()
+    {
+        $this->expectException(FileSyncException::class);
+        new Client('/etc/password');
+    }
+
     // TODO: how should errors be handle here? HTTP library already has stuff to handle this
 
     public function testInvalidServer()
@@ -53,11 +59,21 @@ class ClientTest extends TestCase
         $client->dispatch('http://localhost:1024/test-server.php', 'tony@stark.io', $this->destPath);
     }
 
+    public function testInvalidUserId()
+    {
+        $client = new Client($this->keychainPath);
+        $this->expectException(FileSyncException::class);
+        $client->dispatch('http://localhost:3000/test-server.php', 'darth vader', $this->destPath);
+    }
+
+    /**
+     * We have private key but server does not have public key
+     */
     public function testAuthorizationFailure()
     {
         $client = new Client($this->keychainPath);
         $this->expectException(FileSyncException::class);
-        $client->dispatch('http://localhost:3000/test-server.php', 'tony@stark.io', $this->destPath);
+        $client->dispatch('http://localhost:3000/test-server.php', 'demo2@stark.io', $this->destPath);
     }
 
     public function testDispatch()

@@ -47,7 +47,7 @@ class Client extends BaseFileSync
     {
         $options += ['httpOptions' => []];
 
-        $this->keychainPath = rtrim($keychainPath, '/');
+        $this->setKeychainPath($keychainPath);
 
         $this->http = new Http($options['httpOptions']);
         $this->encryption = new AsymmetricEncryption();
@@ -69,6 +69,12 @@ class Client extends BaseFileSync
         $options += ['delete' => false,'checksum' => false];
        
         $this->serverURL = $server;
+
+        $this->validateUserId($userId);
+
+        if (! $this->hasPrivateKey($userId)) {
+            throw new FileSyncException('Invalid user id');
+        }
                 
         $this->token = $this->authorize($userId, $server);
         if (! $this->token) {

@@ -19,6 +19,7 @@ use FileSync\Http\Response;
 use FileSync\Filesystem\Folder;
 use PHPUnit\Framework\TestCase;
 use Encryption\AsymmetricEncryption;
+use FileSync\Exception\FileSyncException;
 
 class ResponseStub extends Response
 {
@@ -70,6 +71,12 @@ class ServerTest extends TestCase
         $server->set('request', $request);
 
         return $server;
+    }
+
+    public function testInvalidKeychainPath()
+    {
+        $this->expectException(FileSyncException::class);
+        new Server('/etc/password');
     }
 
     public function testDispatch()
