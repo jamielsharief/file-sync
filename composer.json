@@ -1,6 +1,6 @@
 {
     "name": "jamielsharief/file-sync",
-    "description": "File sync utils",
+    "description": "A HTTP based file synchronization library that uses public key authentication",
     "type": "library",
     "keywords": ["sync","filesystem"],
     "license": "MIT",
