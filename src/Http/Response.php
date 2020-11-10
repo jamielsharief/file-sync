@@ -83,6 +83,7 @@ class Response
     }
 
     /**
+     * @codeCoverageIgnore
      * @return void
      */
     public function render()
@@ -102,10 +103,12 @@ class Response
     public function sendFile(string $path): void
     {
         if (file_exists($path)) {
+            // @codeCoverageIgnoreStart
             header('Content-Type: application/octet-stream');
             $fp = fopen($path, 'rb');
             fpassthru($fp);
             exit();
+            // @codeCoverageIgnoreEnd
         }
         throw new InvalidArgumentException('File not found');
     }
