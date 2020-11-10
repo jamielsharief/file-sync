@@ -55,6 +55,10 @@ class ServerTest extends TestCase
     {
         $this->keychainPath = dirname(__DIR__, 1) . '/Fixture/keys';
         $this->sourcePath = dirname(__DIR__, 1) . '/Fixture/data';
+
+        // travis CI has difference default permissions than my Mac
+        chmod($this->sourcePath . '/README.md', 0664);
+        chmod($this->sourcePath . '/folder/.gitignore', 0664);
     }
 
     protected function createMockServer()
@@ -149,18 +153,17 @@ class ServerTest extends TestCase
         $json = preg_replace('/"modified":([\d]+),/', '"modified":123456789,', $response->body());
    
         $this->assertStringContainsString(
-          '{"path":"README.md","size":20,"modified":123456789,"permissions":"0644","checksum":"357e0cdc"}',
+          '{"path":"README.md","size":20,"modified":123456789,"permissions":"0664","checksum":"357e0cdc"}',
           $json
       );
         $this->assertStringContainsString(
-          '{"path":"folder\/.gitignore","size":13,"modified":123456789,"permissions":"0644","checksum":"fc786ea8"}',
+          '{"path":"folder\/.gitignore","size":13,"modified":123456789,"permissions":"0664","checksum":"fc786ea8"}',
           $json
       );
 
         $this->assertStringContainsString(
-        '"delete":["foo.md"]',
-        $json
-    );
+        '"delete":["foo.md"]', $json
+         );
     }
 
     public function testDifferenceChecksum()
@@ -192,7 +195,7 @@ class ServerTest extends TestCase
         $json = preg_replace('/"modified":([\d]+),/', '"modified":123456789,', $response->body());
         
         $this->assertStringContainsString(
-            '{"path":"README.md","size":20,"modified":123456789,"permissions":"0644","checksum":"357e0cdc"}',
+            '{"path":"README.md","size":20,"modified":123456789,"permissions":"0664","checksum":"357e0cdc"}',
             $json
         );
     }
