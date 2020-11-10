@@ -67,16 +67,16 @@ $ openssl rsa -in demo@example.com.privateKey -pubout > demo@example.com.publicK
 
 ## Ignoring Files
 
+> You should NEVER sync a folder that contains private data with other people. 
+
 To ignore files on either the client or server just create a `.syncignore` file.
 
 Here is an example show how to exclude single files, files with an extension or complete folders
 
 ```bash
-composer.lock
-config/.env
+version.txt
+config/details.conf
 *.json
-tests/
-tmp/
 vendor/
 ```
 
