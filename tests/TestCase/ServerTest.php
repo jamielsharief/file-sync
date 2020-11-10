@@ -182,7 +182,13 @@ class ServerTest extends TestCase
          */
         $folder = new Folder();
         $list = $folder->list($this->sourcePath);
-        $list[1]['checksum'] = '<-o->';
+        
+        // travis CI/mac returning items in a different order, quickfix
+        foreach ($list as $index => $file) {
+            if ($file['path'] === 'README.md') {
+                $list[$index]['checksum'] = '<-o->';
+            }
+        }
 
         $response = $this->sendPostRequest([
             'action' => 'difference',
