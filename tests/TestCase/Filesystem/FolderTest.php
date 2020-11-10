@@ -40,10 +40,11 @@ class FolderTest extends TestCase
         $this->assertCount(3, $folder->list($tmpFolder));
 
         /**
-         * After adding syncignore there are only 2 files, README.md and .syncignore
+         * Syncignore wont be synced across but still should never sync a directory containing
+         * important stuff e.g. .env to an untrusted party
          */
        
         file_put_contents($tmpFolder . '/.syncignore', implode("\n", ['*.json','sub/']));
-        $this->assertCount(2, $folder->list($tmpFolder));
+        $this->assertCount(1, $folder->list($tmpFolder));
     }
 }

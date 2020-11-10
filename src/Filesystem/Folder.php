@@ -58,7 +58,8 @@ class Folder
             
             $relativePath = substr($path, $startFrom);
 
-            if ($this->ignorePath($relativePath)) {
+            // I am thinking .syncignore should not never be synced?
+            if ($this->ignorePath($relativePath) || $relativePath === '.syncignore') {
                 continue;
             }
          

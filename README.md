@@ -30,7 +30,7 @@ $client->dispatch('https://localhost:8000/sync.php','demo@example.com','/var/www
 
 `FileSync` looks for keys using the extension based upon type of key that it needs  e.g. `.privateKey` and `.publicKey`.
 
-You need to generate a `private` key and save this on the client machine, save the `public` key on the server.
+You need to generate a `private` key and save this on the client machine, save the `public` key on the server in the keychain folder when you are creating instances.
 
 ### PHP
 
