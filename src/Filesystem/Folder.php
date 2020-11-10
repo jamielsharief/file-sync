@@ -38,7 +38,7 @@ class Folder
             throw new InvalidArgumentException('The path does not exist');
         }
 
-        if (file_exists($directory . '/.syncIgnore')) {
+        if (file_exists($directory . '/.syncignore')) {
             $this->loadSyncIgnore($directory);
         }
 
@@ -104,7 +104,7 @@ class Folder
      */
     private function loadSyncIgnore(string $directory): void
     {
-        $contents = file($directory . '/.syncIgnore');
+        $contents = file($directory . '/.syncignore');
 
         foreach ($contents as $line) {
             $line = trim($line);
