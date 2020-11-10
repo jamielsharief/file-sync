@@ -36,7 +36,7 @@ You need to generate a `private` key and save this on the client machine, save t
 
 `FileSync` uses the [jamielsharief/encryption](https://github.com/jamielsharief/encryption) library for encryption and decryption.
 
-> You can also use AsymmetricEncryption::generateKeyPair for key generation.
+> You can also use AsymmetricEncryption::generateKeyPair to generate both the private key and public key at the same time, and this will return a KeyPair object.
 
 To generate a `private` key
 
