@@ -108,11 +108,10 @@ class Folder
 
         foreach ($contents as $line) {
             $line = trim($line);
-            if (empty($line)) {
-                continue;
+            if ($line) {
+                $line = str_replace('*', '.*', $line);
+                $this->ignorePatterns[] = '/' . str_replace('/', '\/', $line) .'/';
             }
-            $line = str_replace('*', '.*', $line);
-            $this->ignorePatterns[] = '/' . str_replace('/', '\/', $line) .'/';
         }
     }
 }
