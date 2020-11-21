@@ -36,19 +36,31 @@ You need to generate a `private` key and save this on the client machine, save t
 
 `FileSync` uses the [jamielsharief/encryption](https://github.com/jamielsharief/encryption) library for encryption and decryption.
 
-> You can also use AsymmetricEncryption::generateKeyPair to generate both the private key and public key at the same time, and this will return a KeyPair object.
 
-To generate a `private` key
-
-```php
-$privateKey = (new AsymmetricEncryption())->generatePrivateKey();
-```
-
-To extract a `public` key from a `private` key
+To generate a key pair
 
 ```php
-$publicKey = (new AsymmetricEncryption())->extractPublicKey($privateKey);
+use Encryption\Keypair;
+$keyPair = KeyPair::generate();
+echo $keyPair->privateKey();
+echo $keyPair->publicKey();
 ```
+
+To generate a private key
+
+```php
+use Encryption\PrivateKey;
+$privateKey = PrivateKey::generate();
+```
+
+To work with private or public keys
+
+```php
+$publicKey = PublicKey::load($path);
+$privateKey = PrivateKey::path($path);
+```
+
+See [jamielsharief/encryption](https://github.com/jamielsharief/encryption) for more information.
 
 ### Command Line
 
