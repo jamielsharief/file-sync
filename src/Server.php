@@ -13,11 +13,11 @@
 declare(strict_types = 1);
 namespace FileSync;
 
+use Encryption\PublicKey;
 use FileSync\Http\Request;
 use FileSync\Http\Response;
 use FileSync\Filesystem\Diff;
 use FileSync\Filesystem\Folder;
-use Encryption\AsymmetricEncryption;
 
 class Server extends BaseFileSync
 {
@@ -72,8 +72,6 @@ class Server extends BaseFileSync
         $this->duration = $options['duration'];
 
         $this->setKeychainPath($keychainPath);
-        
-        $this->encryption = new AsymmetricEncryption();
 
         $this->request = new Request();
         $this->response = new Response();
@@ -164,9 +162,9 @@ class Server extends BaseFileSync
         $challenge = bin2hex(random_bytes(20));
         file_put_contents($this->tokenPath($challenge), date('Y-m-d H:i:s'));
 
-        return $this->encryption->encrypt(
-            $challenge, $this->loadPublicKey($userId)
-        );
+        $publicKey = new PublicKey($this->loadPublicKey($userId));
+
+        return $publicKey->encrypt($challenge);
     }
 
     /**

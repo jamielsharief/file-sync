@@ -14,11 +14,11 @@ declare(strict_types = 1);
 namespace FileSync\Test\TestCase;
 
 use FileSync\Server;
+use Encryption\PrivateKey;
 use FileSync\Http\Request;
 use FileSync\Http\Response;
 use FileSync\Filesystem\Folder;
 use PHPUnit\Framework\TestCase;
-use Encryption\AsymmetricEncryption;
 use FileSync\Exception\FileSyncException;
 
 class ResponseStub extends Response
@@ -386,10 +386,9 @@ class ServerTest extends TestCase
         $data = json_decode($response->body(), true);
         $this->assertNotEmpty($data['data']['challenge']);
 
-        return (new AsymmetricEncryption())->decrypt(
-            $data['data']['challenge'],
-            file_get_contents(dirname(__DIR__, 1) . '/Fixture/keys/demo@example.com.privateKey')
-        );
+        $privateKey = PrivateKey::load(dirname(__DIR__, 1) . '/Fixture/keys/demo@example.com.privateKey');
+
+        return $privateKey->decrypt($data['data']['challenge']);
     }
 
     protected function sendPostRequest(array $data)

@@ -23,7 +23,7 @@
     "require": {
         "php": ">=7.3.0",
         "originphp/http-client": "^2.0",
-        "jamielsharief/encryption": "^1.0"
+        "jamielsharief/encryption": "^1.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.2",

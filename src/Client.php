@@ -14,10 +14,10 @@ declare(strict_types = 1);
 namespace FileSync;
 
 use Exception;
+use Encryption\PrivateKey;
 use Origin\HttpClient\Http;
 use FileSync\Filesystem\Folder;
 use Origin\HttpClient\Response;
-use Encryption\AsymmetricEncryption;
 use FileSync\Exception\FileSyncException;
 
 class Client extends BaseFileSync
@@ -50,7 +50,6 @@ class Client extends BaseFileSync
         $this->setKeychainPath($keychainPath);
 
         $this->http = new Http($options['httpOptions']);
-        $this->encryption = new AsymmetricEncryption();
     }
 
     /**
@@ -105,9 +104,9 @@ class Client extends BaseFileSync
             $body = $response->json();
 
             if (isset($body['data']['challenge'])) {
-                return $this->encryption->decrypt(
-                    $body['data']['challenge'], $this->loadPrivateKey($username)
-                );
+                $privateKey = new PrivateKey($this->loadPrivateKey($username));
+        
+                return $privateKey->decrypt($body['data']['challenge']);
             }
         }
 

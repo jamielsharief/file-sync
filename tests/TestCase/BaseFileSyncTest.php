@@ -13,6 +13,8 @@
 declare(strict_types = 1);
 namespace FileSync\Test\TestCase;
 
+use Encryption\PublicKey;
+use Encryption\PrivateKey;
 use FileSync\BaseFileSync;
 use PHPUnit\Framework\TestCase;
 use FileSync\Exception\FileSyncException;
@@ -37,6 +39,16 @@ class BaseFileSyncTest extends TestCase
       
         $this->expectException(FileSyncException::class);
         $fileSync->call('loadPrivateKey', 'foo');
+    }
+
+    public function testAuthProcess()
+    {
+        $keyPath = dirname(__DIR__, 1) . '/Fixture/keys';
+        $publicKey = PublicKey::load($keyPath .'/demo@example.com.publicKey');
+        $privateKey = PrivateKey::load($keyPath .'/demo@example.com.privateKey');
+
+        $challenge = $publicKey->encrypt('foo');
+        $this->assertEquals('foo', $privateKey->decrypt($challenge));
     }
 
     public function testValidateKeyFailure()

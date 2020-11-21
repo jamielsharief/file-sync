@@ -17,10 +17,6 @@ use FileSync\Exception\FileSyncException;
 
 class BaseFileSync
 {
-    /**
-     * @var \Encryption\AsymmetricEncryption
-     */
-    protected $encryption;
 
     /**
      * @var string
