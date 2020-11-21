@@ -56,8 +56,8 @@ $privateKey = PrivateKey::generate();
 To work with private or public keys
 
 ```php
-$publicKey = PublicKey::load($path);
-$privateKey = PrivateKey::path($path);
+$publicKey = PublicKey::load($pathToKey);
+$privateKey = PrivateKey::load($pathToKey);
 ```
 
 See [jamielsharief/encryption](https://github.com/jamielsharief/encryption) for more information.
