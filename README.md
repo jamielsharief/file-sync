@@ -46,7 +46,7 @@ echo $keyPair->privateKey();
 echo $keyPair->publicKey();
 ```
 
-To generate a private key
+To generate a private key only
 
 ```php
 use Encryption\PrivateKey;
